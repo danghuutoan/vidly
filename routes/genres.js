@@ -54,17 +54,17 @@ router.put("/:id", async (req, res) => {
 
     const genre = Genre.findByIdAndUpdate(req.params.id, {name: req.params.name}, {new: true});
 
-    if( !genre) res.send("Could not find the given genre").status(404);
+    if( !genre) return res.send("Could not find the given genre").status(404);
 
-    res.send(genre).status(200);
+    return res.send(genre).status(200);
 
 });
 
 router.delete("/:id", async (req, res) => {
     const genre = await Genre.findByIdAndRemove(req.params.id);
-    if( !genre) res.send("Could not find the given genre").status(404);
+    if( !genre) return res.send("Could not find the given genre").status(404);
 
-    res.send(genre).status(200);
+    return res.send(genre).status(200);
 });
 function validateGenre(genre){
     const schema = {
