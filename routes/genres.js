@@ -1,18 +1,7 @@
-const mongoose = require('mongoose');
-const Joi = require("joi");
 const express = require('express');
 const router = express.Router();
+const {Genre, validate} = require('../models/genre');
 
-mongoose.connect('mongodb://localhost/mongo-exercises', { useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false})
-.then(() => { console.log("connected to mongo DB")})
-.catch((err) => console.log('could not connect to mongo DB'))
-
-const genresSchema = mongoose.Schema({
-    id: Number,
-    name: {type: String, required: true}
-})
-
-const Genre = mongoose.model('Genre', genresSchema);
 router.get("/", async (req, res) => {
     const genres = await Genre.find();
     res.send(genres).status(200);
@@ -66,11 +55,5 @@ router.delete("/:id", async (req, res) => {
 
     return res.send(genre).status(200);
 });
-function validateGenre(genre){
-    const schema = {
-        name : Joi.string().min(3).required()
-    }
-    return Joi.validate(genre, schema);
-}
 
 module.exports = router;
